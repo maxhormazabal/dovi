@@ -1,0 +1,88 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dovi"
+version = "0.0.1"
+description = "Document generation and replication for Document AI."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Max Hormazabal", email = "mhormazabal@dokken.ai" }]
+maintainers = [{ name = "Max Hormazabal", email = "mhormazabal@dokken.ai" }]
+keywords = [
+    "document-ai",
+    "document-generation",
+    "synthetic-data",
+    "document-replication",
+    "pdf",
+    "docx",
+    "layout",
+    "ocr",
+    "llm",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Markup",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.6,<3",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+pdf = ["weasyprint>=62"]
+docx = ["python-docx>=1.1"]
+llm = ["httpx>=0.27"]
+all = ["dovi[pdf,docx,llm]"]
+
+[project.scripts]
+dovi = "dovi.cli.main:app"
+
+[project.urls]
+Homepage = "https://github.com/maxhormazabal/dovi"
+Repository = "https://github.com/maxhormazabal/dovi"
+Issues = "https://github.com/maxhormazabal/dovi/issues"
+Changelog = "https://github.com/maxhormazabal/dovi/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "mkdocs-material>=9.5",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["dovi", "tests", "README.md", "LICENSE", "CHANGELOG.md"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["dovi"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
